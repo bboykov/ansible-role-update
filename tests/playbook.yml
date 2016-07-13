@@ -1,11 +1,8 @@
 ---
-- name: Test play for ansible-role-base-config-el7
+- name: Test play 
   hosts: all  
   become: true
   gather_facts: true
-  vars:
-    VARS
-
   roles:
-    - ROLE
-#TODO: ansible-gen-role-files.sh to replace
+    - role: ansible-role-update
+      update_and_reboot: yes

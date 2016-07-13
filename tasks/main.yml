@@ -1,20 +1,15 @@
 ---
-- name: Update | Upgrade all packages
-  yum:
-    name:   '*'
-    state:  latest
-    update_cache: yes
-- name: Update | Check if new kernel is installed
-  shell: >
-    LAST_KERNEL=$(rpm -q --last kernel |
-    cut -d' ' -f1|head -1|sed  's/kernel-//' );
-    CURRENT_KERNEL=$(uname -r);
-    if [ $LAST_KERNEL != $CURRENT_KERNEL ];
-    then echo 'yes'; else echo 'no'; fi
-  ignore_errors: true # this will never stop a play
-  changed_when: false # this will never report 'changed' status
-  register: new_kernel
-#- debug: var=new_kernel
+
+- name: "Include {{ ansible_distribution }} tasks"
+  include: "{{ ansible_distribution }}.yml"
+
+
+- name: "Report if there is a new kernel"
+  debug: msg="Is there new kernel? {{ new_kernel.stdout }}"
+
+- name: "Report if there the system will restart"
+  debug: msg="Rebooting? {{ update_and_reboot  }}"
+
 - name: Update | Restart after new kernel update
   shell: >
     sleep 2 && shutdown -r now
@@ -23,15 +18,18 @@
   poll: 0
   ignore_errors: true
   changed_when: true
-  when: new_kernel.stdout == "yes"
+  when: new_kernel.stdout == "yes" and update_and_reboot
+
 - name: Waiting for system to boot
   local_action: >
     wait_for host={{ inventory_hostname }}
     state=started
-    delay="{{ config_el7_update_and_reboot_delay }}"
-    timeout="{{ config_el7_update_and_reboot_timeout }}"
-  when: new_kernel.stdout == "yes"
-#"
+    delay="{{ update_and_reboot_delay }}"
+    timeout="{{ update_and_reboot_timeout }}"
+  when: new_kernel.stdout == "yes" and update_and_reboot
+
 # TODO maybe:  prompt for reboot
-# TODO maybe: separate role for updates
 # prompt for reboot: http://www.juniper.net/techpubs/en_US/junos-ansible1.0/topics/example/junos-ansible-playbooks-device-rebooting.html
+
+
+

@@ -1,7 +1,8 @@
-# ansible-role-boilerplate
-Boilerplate Files required to start a ansible role
+# ansible-role-update
 
-# Ansible role 
+## Can run on
+- RHEL
+- CentOS
 
 ## Requirements
 
@@ -11,7 +12,9 @@ No specific requirements
 
 | Variable   | Required | Default | Comments (type)  |
 | :---       | :---     | :---    | :---             |
-| `role_var` | no       | -       | (scalar) PURPOSE |
+| `update_and_reboot`         | no       | -       | Reboot if new kernel is installed |
+| `update_and_reboot_delay`   | 30       | -       | Wait for the system to come up for n sec. |
+| `update_and_reboot_timeout` | 300      | -       | Time out after n sec. |
 
 ## Dependencies
 
