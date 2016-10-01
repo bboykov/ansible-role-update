@@ -4,11 +4,11 @@
   include: "{{ ansible_distribution }}.yml"
 
 
-- name: "Report if there is a new kernel"
-  debug: msg="Is there new kernel? {{ new_kernel.stdout }}"
+#- name: "Report if there is a new kernel"
+#  debug: msg="Is there new kernel? {{ new_kernel.stdout }}"
 
-- name: "Report if there the system will restart"
-  debug: msg="Rebooting? {{ update_and_reboot  }}"
+#- name: "Report if there the system will restart"
+#  debug: msg="Rebooting? {{ update_and_reboot  }}"
 
 - name: Update | Restart after new kernel update
   shell: >
