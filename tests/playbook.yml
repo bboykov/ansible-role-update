@@ -1,6 +1,6 @@
 ---
-- name: Test play 
-  hosts: all  
+- name: Test play
+  hosts: all
   become: true
   gather_facts: true
   roles:
