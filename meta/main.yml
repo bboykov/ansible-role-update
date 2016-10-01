@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: "Boyko Boykov"
+  license: MIT
+  min_ansible_version: 2
+  platforms:
+   - name: EL
+     versions:
+      - 5
+      - 6
+      - 7
+  categories:
+   - system
+dependencies: []
