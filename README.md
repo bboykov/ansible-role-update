@@ -1,9 +1,5 @@
 # ansible-role-update
 
-## Can run on
-- RHEL
-- CentOS
-
 ## Requirements
 
 No specific requirements
@@ -20,9 +16,5 @@ No specific requirements
 
 No dependencies.
 
-## Example Playbook
-
-[ See Test playbook ](tests/playbook.yml)  
-
-## License 
-[The MIT License (MIT)](LICENSE)  
+## License
+[The MIT License (MIT)](LICENSE)
