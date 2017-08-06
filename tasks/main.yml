@@ -3,12 +3,9 @@
 - name: "Include {{ ansible_distribution }} tasks"
   include: "{{ ansible_distribution }}.yml"
 
-
-#- name: "Report if there is a new kernel"
-#  debug: msg="Is there new kernel? {{ new_kernel.stdout }}"
-
-#- name: "Report if there the system will restart"
-#  debug: msg="Rebooting? {{ update_and_reboot  }}"
+- name: "Report if new kernel is installed"
+  debug: msg="There is new kernel installed. Reboot is required!"
+  when: new_kernel.stdout == "yes"
 
 - name: Update | Restart after new kernel update
   shell: >
@@ -27,6 +24,7 @@
     delay="{{ update_and_reboot_delay }}"
     timeout="{{ update_and_reboot_timeout }}"
   when: new_kernel.stdout == "yes" and update_and_reboot
+  become: false
 
 # TODO maybe:  prompt for reboot
 # prompt for reboot: http://www.juniper.net/techpubs/en_US/junos-ansible1.0/topics/example/junos-ansible-playbooks-device-rebooting.html
