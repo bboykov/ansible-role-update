@@ -1,5 +1,11 @@
 # How it works:
 # See http://blog.scottlowe.org/2014/10/22/multi-machine-vagrant-with-yaml/ for details.
 
-- name: centos71
-  box: bertvv/centos71
+# - name: centos71
+#   box: bento/centos-7.1
+
+# - name: centos72
+#   box: bento/centos-7.2
+
+- name: centos7latest
+  box: centos/7
