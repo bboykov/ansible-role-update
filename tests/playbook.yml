@@ -1,8 +1,0 @@
----
-- name: Test play
-  hosts: all
-  become: true
-  gather_facts: true
-  roles:
-    - role: ansible-role-update
-      update_and_reboot: yes
