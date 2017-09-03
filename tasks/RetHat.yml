@@ -1,19 +1,21 @@
 ---
-- name: Update | Upgrade all packages
+
+- name: Upgrade all packages.
   yum:
     name:   '*'
     state:  latest
     update_cache: yes
 
-- name: Update | Check if new kernel is installed
+- name: Check if reboot is required (new kernel check).
   shell: >
     LAST_KERNEL=$(rpm -q --last kernel |
     cut -d' ' -f1|head -1|sed  's/kernel-//' );
     CURRENT_KERNEL=$(uname -r);
-    if [ $LAST_KERNEL != $CURRENT_KERNEL ];
-    then echo 'yes'; else echo 'no'; fi
+    if [ $LAST_KERNEL != $CURRENT_KERNEL ]; then
+    echo 'yes';
+    fi
   ignore_errors: true # this will never stop a play
   changed_when: false # this will never report 'changed' status
-  register: new_kernel
+  register: reboot_required
 
 

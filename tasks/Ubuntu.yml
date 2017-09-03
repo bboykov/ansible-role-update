@@ -1,0 +1,20 @@
+---
+
+- name: Update apt cache.
+  apt:
+    update_cache: yes
+
+- name: Upgrade all packages to the latest version.
+  apt:
+    upgrade: dist
+    state: latest
+
+- name: Check if reboot is required.
+  shell: >
+    if [ -f /var/run/reboot-required ]; then
+      echo 'yes'
+    fi
+  ignore_errors: true # this will never stop a play
+  changed_when: false # this will never report 'changed' status
+  register: reboot_required
+

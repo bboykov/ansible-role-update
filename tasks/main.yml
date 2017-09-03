@@ -1,31 +1,35 @@
 ---
-
-- name: "Include {{ ansible_distribution }} tasks"
+- name: "Include {{ ansible_distribution }} tasks."
   include: "{{ ansible_distribution }}.yml"
 
-- debug: msg="There is new kernel installed. Reboot is required!"
-  when: new_kernel.stdout == "yes"
+- name: Print a massege.
+  debug: msg="Reboot is required to finish the update."
+  when: reboot_required.stdout == "yes"
 
-- name: Update | Restart after new kernel update
+- name: Restart after new kernel update.
   shell: >
     sleep 2 && shutdown -r now
-    && wall "New kernel installed. Ansible is rebooting the system"
+    && wall "Ansible is rebooting the system."
   async: 1
   poll: 0
   ignore_errors: true
   changed_when: true
-  when: new_kernel.stdout == "yes" and update_and_reboot
+  when: reboot_required.stdout == "yes" and update_reboot
 
-- name: Waiting for system to boot
+- name: Wait system to boot.
   local_action:
     module: wait_for
     host: "{{ inventory_hostname }}"
     state: started
-    timeout: "{{ update_and_reboot_timeout }}"
-    delay: "{{ update_and_reboot_delay }}"
-  when: new_kernel.stdout == "yes" and update_and_reboot
+    timeout: "{{ update_reboot_timeout }}"
+    delay: "{{ update_reboot_delay }}"
+  when: reboot_required.stdout == "yes" and update_reboot
   become: false
 
-# TODO maybe:  prompt for reboot
+- name: Verify system is up.
+  command: uptime
+  changed_when: false # this will never report 'changed' status
+
+# TODO: Maybe add prompt for reboot
 # prompt for reboot: http://www.juniper.net/techpubs/en_US/junos-ansible1.0/topics/example/junos-ansible-playbooks-device-rebooting.html
 

@@ -1,4 +1,4 @@
 ---
-update_and_reboot: no
-update_and_reboot_delay: 30
-update_and_reboot_timeout: 300
+update_reboot: no
+update_reboot_delay: 30
+update_reboot_timeout: 300
